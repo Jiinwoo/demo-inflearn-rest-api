@@ -136,8 +136,8 @@ public class EventControllerTests {
                 .closeEnrollmentDateTime(LocalDateTime.of(2020,3,22,14,38,0))
                 .beginEventDateTime(LocalDateTime.of(2020,3,26,14,38,0))
                 .endEventDateTime(LocalDateTime.of(2020,3,24,14,38,0))
-                .basePrice(100)
-                .maxPrice(200)
+                .basePrice(200)
+                .maxPrice(100)
                 .limitOfEnrollment(100)
                 .location("강남역 D2 스사텁팩토리")
                 .build();
@@ -145,6 +145,17 @@ public class EventControllerTests {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(eventDto))
         )
-                .andExpect(status().isBadRequest());
+
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$[0].objectName").exists())
+//                .andExpect(jsonPath("$[0].field").exists())
+                .andExpect(jsonPath("$[0].defaultMessage").exists())
+                .andExpect(jsonPath("$[0].code").exists())
+//                .andExpect(jsonPath("$[0].rejectedValue").exists())
+        ;
     }
+
+
+
 }
